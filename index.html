@@ -325,6 +325,60 @@
                         <div class="gallery-overlay"><i class="fas fa-search-plus"></i></div>
                     </div>
                 </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reservation Section -->
+        <section class="reservation section-padding bg-light" id="reservation">
+            <div class="container">
+                <div class="section-header text-center fade-in-up">
+                    <p class="section-subtitle">Book a Table</p>
+                    <h2 class="section-title">Online Reservation</h2>
+                    <div class="divider"></div>
+                </div>
+                <div class="form-section max-w-800 mx-auto fade-in-up" style="max-width: 800px; margin: 0 auto;">
+                    <form id="reservation-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="res-name">Full Name</label>
+                                <input type="text" id="res-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="res-email">Email Address</label>
+                                <input type="email" id="res-email" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="res-phone">Phone Number</label>
+                                <input type="tel" id="res-phone" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="res-guests">Number of Guests</label>
+                                <input type="number" id="res-guests" class="form-control" min="1" max="20" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="res-date">Date</label>
+                                <input type="date" id="res-date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="res-time">Time</label>
+                                <input type="time" id="res-time" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="res-requests">Special Requests</label>
+                            <textarea id="res-requests" class="form-control" rows="3" placeholder="Any special requests or allergies?"></textarea>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary" style="width: 100%; max-width: 300px;">Confirm Reservation</button>
+                        </div>
+                        <div id="res-message" class="form-message mt-3"></div>
+                    </form>
+                </div>
             </div>
         </section>
 
@@ -350,9 +404,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="cta-buttons">
-                        <a href="tel:+910000000000" class="btn btn-primary"><i class="fas fa-phone mr-2"></i> Reserve Table</a>
-                        <a href="#" class="btn btn-outline"><i class="fas fa-motorcycle mr-2"></i> Order Food</a>
+                    
+                    <div class="contact-form-wrapper" style="margin-top: 2rem;">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--accent-color);">Send us a Message</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <input type="text" id="contact-name" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="contact-email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="contact-subject" class="form-control" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="contact-message" class="form-control" rows="4" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-secondary w-100" style="width: 100%;">Send Message</button>
+                            <div id="contact-message-response" class="form-message mt-3"></div>
+                        </form>
                     </div>
                 </div>
                 

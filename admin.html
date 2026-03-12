@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt & Pepper - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B0000;
+            --secondary: #C9A227;
+            --bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        @media (min-width: 1024px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+        .card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card-header {
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .loading { text-align: center; padding: 40px; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Salt & Pepper Admin</h1>
+        <a href="/" style="color: white; text-decoration: none;">&larr; Back to Website</a>
+    </div>
+
+    <div id="loading" class="loading">Loading data...</div>
+
+    <div id="content" class="grid" style="display: none;">
+        <!-- Reservations -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Recent Reservations</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="res-table">
+                    <thead>
+                        <tr>
+                            <th>Date/Time</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Guests</th>
+                            <th>Requests</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Contact Messages</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="msg-table">
+                    <thead>
+                        <tr>
+                            <th>Received</th>
+                            <th>From</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('/api/admin/data');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'grid';
+
+                    // Populate Reservations
+                    const resBody = document.querySelector('#res-table tbody');
+                    if(data.reservations.length === 0) {
+                        resBody.innerHTML = '<tr><td colspan="5" style="text-align:center">No reservations yet.</td></tr>';
+                    } else {
+                        data.reservations.forEach(r => {
+                            resBody.innerHTML += `
+                                <tr>
+                                    <td>
+                                        <strong>${r.date}</strong><br>
+                                        <span style="color:#666">${r.time}</span>
+                                    </td>
+                                    <td>${r.name}</td>
+                                    <td>
+                                        ${r.phone}<br>
+                                        <span style="font-size:0.85em; color:#666">${r.email}</span>
+                                    </td>
+                                    <td><span class="badge">${r.guests} guests</span></td>
+                                    <td>${r.special_requests || '-'}</td>
+                                </tr>
+                            `;
+                        });
+                    }
+
+                    // Populate Messages
+                    const msgBody = document.querySelector('#msg-table tbody');
+                    if(data.messages.length === 0) {
+                        msgBody.innerHTML = '<tr><td colspan="4" style="text-align:center">No messages yet.</td></tr>';
+                    } else {
+                        data.messages.forEach(m => {
+                            const date = new Date(m.created_at).toLocaleDateString();
+                            msgBody.innerHTML += `
+                                <tr>
+                                    <td style="white-space:nowrap">${date}</td>
+                                    <td>
+                                        <strong>${m.name}</strong><br>
+                                        <a href="mailto:${m.email}" style="font-size:0.85em; color:#1976d2">${m.email}</a>
+                                    </td>
+                                    <td><strong>${m.subject}</strong></td>
+                                    <td style="max-width:250px">${m.message}</td>
+                                </tr>
+                            `;
+                        });
+                    }
+                }
+            } catch (error) {
+                document.getElementById('loading').innerHTML = 'Error loading data. Make sure the Flask server is running.';
+                document.getElementById('loading').style.color = 'red';
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

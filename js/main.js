@@ -124,4 +124,96 @@ document.addEventListener('DOMContentLoaded', () => {
         let next = currentSlide >= max ? 0 : currentSlide + 1;
         showSlide(next);
     }, 5000);
+
+    // 5. Backend Form Handling
+    const reservationForm = document.getElementById('reservation-form');
+    if (reservationForm) {
+        reservationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageEl = document.getElementById('res-message');
+            const submitBtn = reservationForm.querySelector('button[type="submit"]');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            messageEl.className = 'form-message';
+            
+            const data = {
+                name: document.getElementById('res-name').value,
+                email: document.getElementById('res-email').value,
+                phone: document.getElementById('res-phone').value,
+                guests: document.getElementById('res-guests').value,
+                date: document.getElementById('res-date').value,
+                time: document.getElementById('res-time').value,
+                special_requests: document.getElementById('res-requests').value
+            };
+
+            try {
+                const response = await fetch('/api/reserve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageEl.textContent = 'Table reserved successfully! We will see you soon.';
+                    messageEl.classList.add('success');
+                    reservationForm.reset();
+                } else {
+                    messageEl.textContent = result.error || 'Failed to reserve table. Please try again.';
+                    messageEl.classList.add('error');
+                }
+            } catch (error) {
+                messageEl.textContent = 'Network error. Please try again later.';
+                messageEl.classList.add('error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirm Reservation';
+            }
+        });
+    }
+
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageEl = document.getElementById('contact-message-response');
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            messageEl.className = 'form-message';
+            
+            const data = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                subject: document.getElementById('contact-subject').value,
+                message: document.getElementById('contact-message').value
+            };
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageEl.textContent = 'Message sent successfully!';
+                    messageEl.classList.add('success');
+                    contactForm.reset();
+                } else {
+                    messageEl.textContent = result.error || 'Failed to send message.';
+                    messageEl.classList.add('error');
+                }
+            } catch (error) {
+                messageEl.textContent = 'Network error. Please try again later.';
+                messageEl.classList.add('error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    }
 });

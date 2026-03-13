@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt & Pepper Restaurant | Premium Chinese Dining in Bhubaneswar</title>
+    <meta name="description" content="Salt & Pepper Restaurant is a highly rated Chinese dining spot in Bhubaneswar known for its authentic flavors, cozy ambiance, and memorable dining experiences.">
+    <meta name="keywords" content="Chinese Restaurant Bhubaneswar, Authentic Chinese Food, Salt and Pepper Patrapada, Best Restaurant near DN Regalia Mall">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Salt & Pepper | Authentic Chinese Cuisine">
+    <meta property="og:description" content="Experience delicious flavors, a cozy ambiance, and friendly service at Patrapada's top-rated Chinese restaurant.">
+    <meta property="og:image" content="https://yourwebsite.com/images/hero-bg.jpg">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta property="og:type" content="restaurant">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Salt & Pepper Restaurant",
+      "image": "https://yourwebsite.com/images/hero-bg.jpg",
+      "@id": "https://yourwebsite.com",
+      "url": "https://yourwebsite.com",
+      "telephone": "+91 XXXXX XXXXX",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "S1, Near DN Regalia Mall, Green Garden, Patrapada",
+        "addressLocality": "Bhubaneswar",
+        "addressRegion": "Odisha",
+        "postalCode": "751019",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 20.2576081,
+        "longitude": 85.7659556
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.7",
+        "reviewCount": "184"
+      },
+      "servesCuisine": "Chinese",
+      "priceRange": "₹"
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Razorpay Checkput -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                Salt <span class="accent-color">&</span> Pepper
+            </a>
+            <nav class="navbar" id="navbar">
+                <ul class="nav-links">
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#menu" class="nav-link">Menu</a></li>
+                    <li><a href="#why-us" class="nav-link">Why Us</a></li>
+                    <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#reservation" class="nav-link">Reservations</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="cart-btn" id="cart-toggle-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <a href="#menu" class="btn btn-primary btn-sm">Order Online</a>
+                </div>
+            </nav>
+            <div class="mobile-actions">
+                <button class="cart-btn mobile-cart" id="mobile-cart-toggle">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="mobile-toggle" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Order</h3>
+            <button class="close-cart" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Items injected here by JS -->
+            <div class="empty-cart-msg text-center">Your cart is empty</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total Amount:</span>
+                <strong id="cart-total-amt">₹0.00</strong>
+            </div>
+            <button class="btn btn-primary w-100" id="checkout-btn" disabled>Proceed to Checkout</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content checkout-content">
+            <div class="modal-header">
+                <h2>Delivery Details</h2>
+                <span class="close-modal" id="close-checkout">&times;</span>
+            </div>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="chk-name" class="form-control" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="chk-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="chk-phone" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Complete Address</label>
+                    <textarea id="chk-address" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-2" id="pay-now-btn">Pay <span id="pay-amt-btn"></span></button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-overlay"></div>
+            <div class="container hero-container">
+                <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="hero-badge">
+                        <i class="fas fa-star text-secondary"></i> 4.7 Rating | Patrapada, Bhubaneswar
+                    </div>
+                    <h1 class="hero-title">Experience <span class="text-secondary">Authentic Flavors</span> at Salt & Pepper</h1>
+                    <p class="hero-subtitle">Delicious Chinese cuisine, cozy ambiance, and unforgettable dining moments in the heart of Patrapada.</p>
+                    <div class="hero-buttons">
+                        <a href="#menu" class="btn btn-primary">View Menu & Order</a>
+                        <a href="#reservation" class="btn btn-outline-light">Reserve Table</a>
+                    </div>
+                    <div class="hero-quick-info mt-4">
+                        <span><i class="fas fa-utensils"></i> Chinese Cuisine</span>
+                        <span class="mx-2">|</span>
+                        <span><i class="fas fa-shopping-bag"></i> Dine-In & Delivery</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about section-padding" id="about">
+            <div class="container about-container">
+                <div class="about-image" data-aos="fade-right">
+                    <div class="img-frame">
+                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800" alt="Restaurant Interior">
+                    </div>
+                    <div class="experience-card">
+                        <span class="exp-num">4.7<i class="fas fa-star"></i></span>
+                        <span class="exp-text">184+ Reviews</span>
+                    </div>
+                </div>
+                <div class="about-content" data-aos="fade-left">
+                    <p class="section-subtitle">Our Story</p>
+                    <h2 class="section-title">A Local Favorite for Authentic Taste</h2>
+                    <p class="section-text">
+                        Salt & Pepper Restaurant is one of the most loved dining spots in Patrapada. Known for its flavorful Chinese dishes, welcoming atmosphere, and friendly service, it has become a go-to destination for food lovers.
+                    </p>
+                    <p class="section-text mb-4">
+                        Whether you are visiting with friends, family, or colleagues, every meal here is crafted to deliver a satisfying and memorable experience.
+                    </p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check"></i> Cozy dining environment</li>
+                        <li><i class="fas fa-check"></i> Friendly & attentive staff</li>
+                        <li><i class="fas fa-check"></i> Hygienic kitchen</li>
+                        <li><i class="fas fa-check"></i> Near DN Regalia Mall</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Menu Section -->
+        <section class="menu section-padding bg-alt" id="menu">
+            <div class="container">
+                <div class="section-header text-center" data-aos="fade-up">
+                    <p class="section-subtitle">Discover</p>
+                    <h2 class="section-title">Our Menu</h2>
+                    <div class="menu-categories" id="menu-categories-nav">
+                        <!-- Categories injected here -->
+                    </div>
+                </div>
+                
+                <div id="menu-loading" class="text-center py-4">
+                    <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                    <p class="mt-2 text-muted">Loading delicious items...</p>
+                </div>
+
+                <div class="menu-grid" id="menu-container">
+                    <!-- Dynamic Items -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section class="features section-padding" id="why-us">
+            <div class="container container-sm text-center">
+                <div class="section-header" data-aos="fade-up">
+                    <p class="section-subtitle">Our Promise</p>
+                    <h2 class="section-title">Why Choose Us</h2>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="icon-wrap"><i class="fas fa-fire"></i></div>
+                        <h3>Authentic Flavors</h3>
+                        <p>Every dish is prepared using quality ingredients and perfectly balanced spices.</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon-wrap"><i class="fas fa-couch"></i></div>
+                        <h3>Cozy Experience</h3>
+                        <p>Enjoy your meal in a calm, welcoming environment with warm lighting.</p>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="icon-wrap"><i class="fas fa-wallet"></i></div>
+                        <h3>Affordable Pricing</h3>
+                        <p>Premium taste tailored for ₹1 – ₹200 per person budgets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table Reservation Section -->
+        <section class="reservation section-padding bg-alt" id="reservation">
+            <div class="container">
+                <div class="res-container">
+                    <div class="res-image" data-aos="zoom-in">
+                        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&q=80&w=800" alt="Reserved Table">
+                    </div>
+                    <div class="res-form-wrapper" data-aos="fade-up">
+                        <h2 class="section-title mb-4">Book a Table</h2>
+                        <form id="reservation-form" class="custom-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="res-name" class="form-control" placeholder="Full Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="res-email" class="form-control" placeholder="Email Address" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="tel" id="res-phone" class="form-control" placeholder="Phone Number" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" id="res-guests" class="form-control" placeholder="Guests" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="date" id="res-date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="time" id="res-time" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="res-requests" class="form-control" rows="2" placeholder="Special Requests (Optional)"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Confirm Reservation</button>
+                            <div id="res-message" class="form-message mt-3"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Location -->
+        <section class="contact-sec section-padding" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info" data-aos="fade-right">
+                        <p class="section-subtitle">Get In Touch</p>
+                        <h2 class="section-title">Visit or Message Us</h2>
+                        <p class="text-muted mb-4">Ready for a delicious meal? Visit Salt & Pepper today!</p>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>S1, Near DN Regalia Mall, Green Garden, Patrapada, Bhubaneswar, Odisha 751019</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Working Hours</h4>
+                                <p>Opens 12:30 PM (Lunch & Dinner)</p>
+                            </div>
+                        </div>
+                        
+                        <h3 class="mt-5 mb-3">Send a Message</h3>
+                        <form id="contact-form" class="custom-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="msg-name" class="form-control" placeholder="Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="msg-email" class="form-control" placeholder="Email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="msg-subject" class="form-control" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="msg-message" class="form-control" rows="4" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                            <div id="contact-message-response" class="form-message mt-3"></div>
+                        </form>
+                    </div>
+                    <div class="contact-map" data-aos="fade-left">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14972.115869389972!2d85.7659556!3d20.2576081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a71015c7e0b5%3A0xe53633ab0a790586!2sDN%20Regalia%20Mall!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <h2 class="footer-brand">Salt <span class="text-secondary">&</span> Pepper</h2>
+            <p class="footer-tagline">Authentic Taste. Cozy Dining. Memorable Moments.</p>
+            <div class="social-links mt-4 mb-4">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#about">About</a> | 
+                <a href="#menu">Menu</a> | 
+                <a href="#reservation">Book Table</a> | 
+                <a href="#contact">Contact</a>
+            </div>
+            <p class="copyright mt-4">&copy; 2026 Salt & Pepper Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50 });
+    </script>
+    
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

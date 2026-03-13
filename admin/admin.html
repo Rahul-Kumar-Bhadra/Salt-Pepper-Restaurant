@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Salt & Pepper Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>S<span>&</span>P Admin</h2>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active" data-target="dashboard-view"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="#" data-target="orders-view"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+                <li><a href="#" data-target="reservations-view"><i class="fas fa-calendar-check"></i> Reservations</a></li>
+                <li><a href="#" data-target="menu-view"><i class="fas fa-utensils"></i> Menu Management</a></li>
+                <li><a href="#" data-target="messages-view"><i class="fas fa-envelope"></i> Messages</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn btn-outline w-100"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <button id="mobile-toggle" class="mobile-toggle"><i class="fas fa-bars"></i></button>
+                <div class="topbar-right">
+                    <span class="admin-badge"><i class="fas fa-user-circle"></i> Super Admin</span>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                
+                <!-- Dashboard View -->
+                <section id="dashboard-view" class="view-section active">
+                    <div class="section-header">
+                        <h1>Overview Analytics</h1>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="stat-info">
+                                <h3>Total Orders</h3>
+                                <p id="stat-orders">...</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                            <div class="stat-info">
+                                <h3>Revenue</h3>
+                                <p id="stat-revenue">...</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <div class="stat-info">
+                                <h3>Reservations</h3>
+                                <p id="stat-reservations">...</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning"><i class="fas fa-clock"></i></div>
+                            <div class="stat-info">
+                                <h3>Pending Orders</h3>
+                                <p id="stat-pending">...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Orders View -->
+                <section id="orders-view" class="view-section">
+                    <div class="section-header">
+                        <h1>Manage Orders</h1>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table" id="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Date</th>
+                                        <th>Customer</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reservations View -->
+                <section id="reservations-view" class="view-section">
+                    <div class="section-header">
+                        <h1>Table Reservations</h1>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table" id="reservations-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Customer Info</th>
+                                        <th>Guests</th>
+                                        <th>Requests</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Menu View -->
+                <section id="menu-view" class="view-section">
+                    <div class="section-header">
+                        <h1>Menu Content Management</h1>
+                        <button class="btn btn-primary" onclick="openMenuModal()"><i class="fas fa-plus"></i> Add Dish</button>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table" id="menu-table">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Dish Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Messages View -->
+                <section id="messages-view" class="view-section">
+                    <div class="section-header">
+                        <h1>Contact Messages</h1>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table" id="messages-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>From</th>
+                                        <th>Subject</th>
+                                        <th>Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Menu Modal -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add Menu Item</h2>
+                <span class="close-btn" onclick="closeMenuModal()">&times;</span>
+            </div>
+            <form id="menu-form">
+                <input type="hidden" id="menu-id">
+                <div class="form-group">
+                    <label>Dish Name</label>
+                    <input type="text" id="menu-name" class="form-control" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category ID (1-5)</label>
+                        <input type="number" id="menu-category" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₹)</label>
+                        <input type="number" id="menu-price" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="menu-desc" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="text" id="menu-image" class="form-control" placeholder="images/menu-item.jpg">
+                </div>
+                <div class="form-row">
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="menu-veg">
+                        <label for="menu-veg">Is Vegetarian</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="menu-available" checked>
+                        <label for="menu-available">Is Available</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Dish</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

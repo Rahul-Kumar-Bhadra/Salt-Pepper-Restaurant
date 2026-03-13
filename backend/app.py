@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Ensure the backend directory is in the Python path for Vercel
+sys.path.insert(0, os.path.dirname(__file__))
+
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv

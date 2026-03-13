@@ -1,0 +1,8 @@
+flask
+flask-sqlalchemy
+flask-cors
+pyjwt
+werkzeug
+razorpay
+gunicorn
+python-dotenv
